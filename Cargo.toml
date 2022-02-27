@@ -1,5 +1,6 @@
 [package]
 name = "label-logger"
+description = "A Cargo-like logging library"
 version = "0.1.0"
 edition = "2021"
 
