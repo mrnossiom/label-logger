@@ -8,13 +8,13 @@
 //! use label_logger::{init_logger, OutputLabel};
 //!
 //! fn main() {
-//! 	// This step is not necessary but it is recommended.
-//! 	// It simplifies the output when necessary and ensures color support.
-//! 	init_logger();
+//!     // This step is not necessary but it is recommended.
+//!     // It simplifies the output when necessary and ensures color support.
+//!     init_logger();
 //!
-//! 	// Log what you want.
-//! 	println!(OutputLabel::Info, "Hello, {}!", "world");
-//! 	println!(OutputLabel::Error, "Bye, {}!", "program");
+//!     // Log what you want.
+//!     println!(OutputLabel::Info, "Hello, {}!", "world");
+//!     println!(OutputLabel::Error, "Bye, {}!", "program");
 //! }
 
 #![feature(decl_macro)]
@@ -26,6 +26,7 @@ mod util;
 use crate::log::SIMPLIFY_OUTPUT;
 use atty::Stream;
 use std::sync::atomic::Ordering;
+use yansi::Paint;
 
 // Re-exports
 pub use crate::log::{pretty_output, print_label, print_r_label, println_label, OutputLabel};
@@ -37,17 +38,13 @@ pub use yansi;
 pub fn init_logger() {
 	// Enable coloring on Windows if possible
 	#[cfg(windows)]
-	{
-		use yansi::Paint;
-
-		if !Paint::enable_windows_ascii() {
-			Paint::disable();
-		}
+	if !Paint::enable_windows_ascii() {
+		Paint::disable();
 	}
 
-	// If the output is piped don't trim output
-	SIMPLIFY_OUTPUT.store(
-		atty::is(Stream::Stdin) && atty::isnt(Stream::Stdout),
-		Ordering::Relaxed,
-	);
+	// If the output is piped disable color and simplify output
+	if atty::is(Stream::Stdin) && atty::isnt(Stream::Stdout) {
+		Paint::disable();
+		SIMPLIFY_OUTPUT.store(true, Ordering::Relaxed);
+	}
 }
