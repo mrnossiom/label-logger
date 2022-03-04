@@ -1,12 +1,30 @@
 use crate::util::{get_term_width, shorten};
-use std::{
-	io::{stdout, Write},
-	sync::atomic::{AtomicBool, Ordering},
-};
-use yansi::{Color, Style};
+use atty::Stream;
+use std::io::{stdout, Write};
+use yansi::{Color, Paint, Style};
 
+// This checks if colors can be enabled on windows.
+// It also checks if the output is piped and simplify the output for better debugging
+lazy_static! {
+	pub static ref SIMPLIFY_OUTPUT: bool = {
+		// Enable coloring on Windows if possible
+		#[cfg(windows)]
+		if !Paint::enable_windows_ascii() {
+			Paint::disable();
+		}
+
+		// If the output is piped disable color and simplify output
+		if atty::is(Stream::Stdin) && atty::isnt(Stream::Stdout) {
+			Paint::disable();
+			return true;
+		}
+
+		false
+	};
+}
+
+// The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
-pub static SIMPLIFY_OUTPUT: AtomicBool = AtomicBool::new(false);
 
 /// The enum of possible output labels
 pub enum OutputLabel<'a> {
@@ -60,7 +78,7 @@ pub fn pretty_output<S: Into<String>>(label: OutputLabel, message: S) -> String 
 	let term_width = get_term_width();
 	let message = message.into();
 
-	match SIMPLIFY_OUTPUT.load(Ordering::Acquire) {
+	match *SIMPLIFY_OUTPUT {
 		true => format!("{} {}", label, message),
 		false => {
 			let shorten_message = shorten(message, term_width - LABEL_WIDTH - 1);
