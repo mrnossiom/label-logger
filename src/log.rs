@@ -26,6 +26,8 @@ lazy_static! {
 // The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
 
+// TODO: document each possible label
+// TODO: make the macro calls less verbose
 /// The enum of possible output labels
 pub enum OutputLabel<'a> {
 	Error,
@@ -47,11 +49,6 @@ pub fn println_label<S: Into<String>>(label: OutputLabel, message: S) {
 			println!("{}", pretty_output(label, message));
 		}
 	}
-}
-
-/// Print a message with a label, add a carriage return at the end and flush the stdout
-pub fn print_label<S: Into<String>>(label: OutputLabel, message: S) {
-	print!("{}", pretty_output(label, message));
 }
 
 /// Print a message with a label, add a carriage return at the end and flush the stdout

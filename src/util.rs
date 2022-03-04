@@ -24,6 +24,7 @@ pub fn shorten(message: String, max_width: usize) -> String {
 	.join("");
 }
 
+// TODO: make this static
 /// Get the current terminal width
 ///
 /// If not found default to 80
