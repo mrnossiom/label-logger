@@ -5,19 +5,24 @@ use term_size::dimensions as terminal_dimensions;
 // This checks if colors can be enabled on windows.
 // It also checks if the output is piped and simplify the output for better debugging
 lazy_static! {
-	// TODO: rename to pad_output and change the code accordingly once moved to console crate
 	pub static ref PAD_OUTPUT: bool = {
 		// Pad output if the stdout is a tty
 		return Term::stdout().is_term()
 	};
 }
 
-// The maximum length of a log label
+/// The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
 
-// TODO: document each possible label
 // TODO: make the macro calls less verbose
 /// The enum of possible output labels
+/// # Labels
+/// - **Error**: `Error` in red
+/// - **Warning**: `Warning` in yellow
+/// - **Info**: the provided text in blue
+/// - **Success**: the provided text in green
+/// - **Custom**: the provided text in the provided color
+/// - **Prompt**: the provided text in yellow
 pub enum OutputLabel<'a> {
 	Error,
 	Warning,
@@ -32,17 +37,17 @@ pub enum OutputLabel<'a> {
 pub fn println_label(label: OutputLabel, message: String) {
 	match label {
 		OutputLabel::Error => {
-			eprintln!("{}", pretty_output(label, message));
+			eprintln!("{}", pretty_output(label, message, false));
 		}
 		_ => {
-			println!("{}", pretty_output(label, message));
+			println!("{}", pretty_output(label, message, false));
 		}
 	}
 }
 
 /// Print a message with a label, add a carriage return at the end and flush the stdout
 pub fn print_r_label(label: OutputLabel, message: String) {
-	print!("{}\r", pretty_output(label, message));
+	print!("{}\r", pretty_output(label, message, true));
 
 	stdout().flush().unwrap_or_else(|_| {
 		println_label(OutputLabel::Error, "Could not flush stdout".to_string());
@@ -50,7 +55,7 @@ pub fn print_r_label(label: OutputLabel, message: String) {
 }
 
 /// Pretty a message with a given label and a given message colour
-pub fn pretty_output(label: OutputLabel, message: String) -> String {
+pub fn pretty_output(label: OutputLabel, message: String, trim: bool) -> String {
 	let (label, label_color) = match label {
 		OutputLabel::Error => (String::from("Error"), Color::Red),
 		OutputLabel::Warning => (String::from("Warn"), Color::Yellow),
@@ -61,12 +66,13 @@ pub fn pretty_output(label: OutputLabel, message: String) -> String {
 		OutputLabel::None => (String::from(""), Color::White),
 	};
 
-	// TODO: document
-	let term_width = terminal_dimensions().unwrap().0;
-
 	match *PAD_OUTPUT {
 		false => format!("{} {}", label, message),
 		true => {
+			// PAD_OUTPUT is false if there is no tty connected to stdout.
+			// We can use unwrap() here safely.
+			let (term_width, _) = terminal_dimensions().unwrap();
+
 			let label = Style::new()
 				.fg(label_color)
 				.bold()
@@ -80,7 +86,7 @@ pub fn pretty_output(label: OutputLabel, message: String) -> String {
 					message.as_str(),
 					term_width - LABEL_WIDTH - 1,
 					Alignment::Left,
-					None,
+					if trim { Some("...") } else { None },
 				)
 			)
 		}

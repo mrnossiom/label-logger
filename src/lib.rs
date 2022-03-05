@@ -1,8 +1,12 @@
+// TODO: add logo
+// #![doc(html_favicon_url = "https://example.com/favicon.ico")]
+// #![doc(html_logo_url = "https://example.com/logo.jpg")]
+
 //! A Cargo-like logging library.
 //!
 //! # Usage
 //!
-//! ```rust
+//! ```
 //! #[macro_use]
 //! extern crate label_logger;
 //!
@@ -13,6 +17,7 @@
 //!     println!(OutputLabel::Success("Hello"), "world");
 //!     println!(OutputLabel::Error, "Bye, {}!", "program");
 //! }
+//! ```
 
 #![feature(decl_macro)]
 
