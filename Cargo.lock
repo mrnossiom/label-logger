@@ -3,30 +3,31 @@
 version = 3
 
 [[package]]
-name = "atty"
-version = "0.2.14"
+name = "console"
+version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
+checksum = "a28b32d32ca44b70c3e4acd7db1babf555fa026e385fb95f18028f88848b3c31"
 dependencies = [
- "hermit-abi",
+ "encode_unicode",
  "libc",
+ "once_cell",
+ "regex",
+ "terminal_size",
+ "unicode-width",
  "winapi",
 ]
 
 [[package]]
-name = "hermit-abi"
-version = "0.1.19"
+name = "encode_unicode"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
-dependencies = [
- "libc",
-]
+checksum = "a357d28ed41a50f9c765dbfe56cbc04a64e53e5fc58ba79fbc34c10ef3df831f"
 
 [[package]]
 name = "label-logger"
 version = "0.1.1"
 dependencies = [
- "atty",
+ "console",
  "lazy_static",
  "term_size",
  "yansi",
@@ -45,6 +46,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1bf2e165bb3457c8e098ea76f3e3bc9db55f87aa90d52d0e6be741470916aaa4"
 
 [[package]]
+name = "once_cell"
+version = "1.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "87f3e037eac156d1775da914196f0f37741a274155e34a0b7e427c35d2a2ecb9"
+
+[[package]]
+name = "regex"
+version = "1.5.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461"
+dependencies = [
+ "regex-syntax",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.6.25"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b"
+
+[[package]]
 name = "term_size"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -53,6 +75,22 @@ dependencies = [
  "libc",
  "winapi",
 ]
+
+[[package]]
+name = "terminal_size"
+version = "0.1.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "633c1a546cee861a1a6d0dc69ebeca693bf4296661ba7852b9d21d159e0506df"
+dependencies = [
+ "libc",
+ "winapi",
+]
+
+[[package]]
+name = "unicode-width"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
 
 [[package]]
 name = "winapi"

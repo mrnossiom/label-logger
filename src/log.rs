@@ -1,11 +1,12 @@
 use crate::util::{get_term_width, shorten};
-use atty::Stream;
+use console::Term;
 use std::io::{stdout, Write};
 use yansi::{Color, Paint, Style};
 
 // This checks if colors can be enabled on windows.
 // It also checks if the output is piped and simplify the output for better debugging
 lazy_static! {
+	// TODO: rename to pad_output and change the code accordingly once moved to console crate
 	pub static ref SIMPLIFY_OUTPUT: bool = {
 		// Enable coloring on Windows if possible
 		#[cfg(windows)]
@@ -14,7 +15,7 @@ lazy_static! {
 		}
 
 		// If the output is piped disable color and simplify output
-		if atty::is(Stream::Stdin) && atty::isnt(Stream::Stdout) {
+		if !Term::stdout().is_term() {
 			Paint::disable();
 			return true;
 		}
