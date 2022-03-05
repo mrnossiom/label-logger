@@ -21,7 +21,6 @@ extern crate lazy_static;
 
 mod log;
 mod macros;
-mod util;
 
 // Re-exports
 pub use crate::log::{pretty_output, print_r_label, println_label, OutputLabel};
