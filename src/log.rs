@@ -1,26 +1,14 @@
-use console::{pad_str, Alignment, Term};
+use console::{pad_str, Alignment, Color, Style, Term};
 use std::io::{stdout, Write};
 use term_size::dimensions as terminal_dimensions;
-use yansi::{Color, Paint, Style};
 
 // This checks if colors can be enabled on windows.
 // It also checks if the output is piped and simplify the output for better debugging
 lazy_static! {
 	// TODO: rename to pad_output and change the code accordingly once moved to console crate
-	pub static ref SIMPLIFY_OUTPUT: bool = {
-		// Enable coloring on Windows if possible
-		#[cfg(windows)]
-		if !Paint::enable_windows_ascii() {
-			Paint::disable();
-		}
-
-		// If the output is piped disable color and simplify output
-		if !Term::stdout().is_term() {
-			Paint::disable();
-			return true;
-		}
-
-		false
+	pub static ref PAD_OUTPUT: bool = {
+		// Pad output if the stdout is a tty
+		return Term::stdout().is_term()
 	};
 }
 
@@ -76,10 +64,14 @@ pub fn pretty_output(label: OutputLabel, message: String) -> String {
 	// TODO: document
 	let term_width = terminal_dimensions().unwrap().0;
 
-	match *SIMPLIFY_OUTPUT {
-		true => format!("{} {}", label, message),
-		false => {
-			let label = Style::new(label_color).bold().paint(label).to_string();
+	match *PAD_OUTPUT {
+		false => format!("{} {}", label, message),
+		true => {
+			let label = Style::new()
+				.fg(label_color)
+				.bold()
+				.apply_to(label)
+				.to_string();
 
 			format!(
 				"{} {}",
