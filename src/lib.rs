@@ -28,4 +28,4 @@ mod macros;
 // Re-exports
 pub use crate::log::{pretty_output, print_r_label, println_label, OutputLabel};
 pub use crate::macros::*;
-pub use console::Color;
+pub use console::{style, Color, Style};
