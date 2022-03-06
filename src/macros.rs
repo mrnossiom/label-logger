@@ -21,10 +21,10 @@
 #[macro_export]
 macro_rules! println {
 	(_, $($arg:tt)*) => {
-			label_logger::println_label(label_logger::OutputLabel::None, format!($($arg)*))
+			$crate::println_label($crate::OutputLabel::None, format!($($arg)*))
 	};
 	($label:expr, $($arg:tt)*) => {
-		label_logger::println_label($label, format!($($arg)*))
+		$crate::println_label($label, format!($($arg)*))
 	};
 }
 
@@ -33,16 +33,28 @@ macro_rules! println {
 #[macro_export]
 macro_rules! eprintln {
 	($($arg:tt)*) => {
-		label_logger::println_label(label_logger::OutputLabel::Error, format!($($arg)*))
+		$crate::println_label($crate::OutputLabel::Error, format!($($arg)*))
 	};
 }
 
 // TODO: add usage example
-/// Print the given message with a carriage return at the end.
-/// Useful for mid-process logging.
+/// Print the given message with a carriage return at the end
+/// Useful for mid-process logging
 #[macro_export]
 macro_rules! print_r {
 	($label:expr, $($arg:tt)*) => {
-		label_logger::print_r_label($label, format!($($arg)*))
+		$crate::print_r_label($label, format!($($arg)*))
+	};
+}
+
+// TODO: document
+/// Formats your message with the specified label
+#[macro_export]
+macro_rules! format_label {
+	(_, $($arg:tt)*) => {
+		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)*), false)
+	};
+	($label:expr, $($arg:tt)*) => {
+		$crate::pretty_output($label, format!($($arg)*), false)
 	};
 }
