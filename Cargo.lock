@@ -25,7 +25,7 @@ checksum = "a357d28ed41a50f9c765dbfe56cbc04a64e53e5fc58ba79fbc34c10ef3df831f"
 
 [[package]]
 name = "label-logger"
-version = "0.1.1"
+version = "1.0.0-rc.1"
 dependencies = [
  "console",
  "lazy_static",

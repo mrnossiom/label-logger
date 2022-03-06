@@ -7,7 +7,7 @@ use term_size::dimensions as terminal_dimensions;
 lazy_static! {
 	pub static ref PAD_OUTPUT: bool = {
 		// Pad output if the stdout is a tty
-		return Term::stdout().is_term()
+		Term::stdout().is_term()
 	};
 }
 
