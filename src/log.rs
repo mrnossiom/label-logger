@@ -1,3 +1,4 @@
+use crate::util::shorten;
 use console::{pad_str, Alignment, Color, Style, Term};
 use std::io::{stdout, Write};
 use term_size::dimensions as terminal_dimensions;
@@ -79,15 +80,16 @@ pub fn pretty_output(label: OutputLabel, message: String, trim: bool) -> String 
 				.apply_to(label)
 				.to_string();
 
+			let message = if trim {
+				shorten(message, term_width - LABEL_WIDTH - 1)
+			} else {
+				message
+			};
+
 			format!(
 				"{} {}",
 				pad_str(label.as_str(), LABEL_WIDTH, Alignment::Right, None),
-				pad_str(
-					message.as_str(),
-					term_width - LABEL_WIDTH - 1,
-					Alignment::Left,
-					if trim { Some("...") } else { None },
-				)
+				message
 			)
 		}
 	}
