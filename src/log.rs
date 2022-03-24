@@ -16,20 +16,20 @@ lazy_static! {
 pub const LABEL_WIDTH: usize = 12;
 
 /// The enum of possible output labels
-/// # Labels
-/// - **Error**: `Error` in red
-/// - **Warning**: `Warning` in yellow
-/// - **Info**: the provided text in blue
-/// - **Success**: the provided text in green
-/// - **Custom**: the provided text in the provided color
-/// - **Prompt**: the provided text in yellow
 pub enum OutputLabel<'a> {
+	/// Outputs `Error` in red
 	Error,
+	/// Outputs `Warning` in yellow
 	Warning,
+	/// Outputs the provided label in blue
 	Info(&'a str),
+	/// Outputs the provided label in green
 	Success(&'a str),
+	/// Outputs the provided label in the provided color
 	Custom(&'a str, Color),
+	/// Outputs the provided label in yellow
 	Prompt(&'a str),
+	/// Outputs a blank space with no label
 	None,
 }
 

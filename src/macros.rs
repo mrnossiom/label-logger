@@ -38,7 +38,7 @@ macro_rules! eprintln {
 	};
 }
 
-// TODO: document
+/// Prints a message with the warning label
 #[macro_export]
 macro_rules! warn {
 	($($arg:tt)*) => {
@@ -46,6 +46,7 @@ macro_rules! warn {
 	};
 }
 
+/// Prints a message with the info label and the provided text
 #[macro_export]
 macro_rules! info {
 	($info_label:expr, $($arg:tt)*) => {
@@ -53,6 +54,7 @@ macro_rules! info {
 	};
 }
 
+/// Prints a message with the success label and the provided text
 #[macro_export]
 macro_rules! success {
 	($success_label:expr, $($arg:tt)*) => {
