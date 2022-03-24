@@ -15,7 +15,6 @@ lazy_static! {
 /// The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
 
-// TODO: make the macro calls less verbose
 /// The enum of possible output labels
 /// # Labels
 /// - **Error**: `Error` in red

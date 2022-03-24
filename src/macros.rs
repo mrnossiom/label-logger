@@ -37,6 +37,30 @@ macro_rules! eprintln {
 	};
 }
 
+// TODO: document
+#[macro_export]
+macro_rules! warn {
+	($($arg:tt)*) => {
+		$crate::println_label($crate::OutputLabel::Warning, format!($($arg)*))
+	};
+}
+
+// TODO: document
+#[macro_export]
+macro_rules! info {
+	($info_label:expr, $($arg:tt)*) => {
+		$crate::println_label($crate::OutputLabel::Info($info_label), format!($($arg)*))
+	};
+}
+
+// TODO: document
+#[macro_export]
+macro_rules! success {
+	($success_label:expr, $($arg:tt)*) => {
+		$crate::println_label($crate::OutputLabel::Success($success_label), format!($($arg)*))
+	};
+}
+
 // TODO: add usage example
 /// Print the given message with a carriage return at the end
 /// Useful for mid-process logging
@@ -48,7 +72,7 @@ macro_rules! print_r {
 }
 
 // TODO: document
-/// Formats your message with the specified label
+/// Formats your message with the specified output label
 #[macro_export]
 macro_rules! format_label {
 	(_, $($arg:tt)*) => {
