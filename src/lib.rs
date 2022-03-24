@@ -2,22 +2,7 @@
 // #![doc(html_favicon_url = "https://example.com/favicon.ico")]
 // #![doc(html_logo_url = "https://example.com/logo.jpg")]
 
-//! A Cargo-like logging library.
-//!
-//! # Usage
-//!
-//! ```
-//! #[macro_use]
-//! extern crate label_logger;
-//!
-//! use label_logger::OutputLabel;
-//!
-//! fn main() {
-//!     // Log what you want.
-//!     println!(OutputLabel::Success("Hello"), "world");
-//!     println!(OutputLabel::Error, "Bye, {}!", "program");
-//! }
-//! ```
+#![doc = include_str!("../README.md")]
 
 #[macro_use]
 extern crate lazy_static;
