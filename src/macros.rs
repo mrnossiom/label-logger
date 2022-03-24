@@ -76,9 +76,9 @@ macro_rules! print_r {
 #[macro_export]
 macro_rules! format_label {
 	(_, $($arg:tt)*) => {
-		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)*), false)
+		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)*))
 	};
 	($label:expr, $($arg:tt)*) => {
-		$crate::pretty_output($label, format!($($arg)*), false)
+		$crate::pretty_output($label, format!($($arg)*))
 	};
 }
