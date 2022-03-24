@@ -3,9 +3,9 @@
 ///
 /// # Usage
 ///
-/// ```
-/// // -snip-
-///
+/// ```rust
+/// # #[macro_use] extern crate label_logger;
+/// # fn main() {
 /// // In your function :
 /// use label_logger::OutputLabel;
 /// // -snip-
@@ -14,6 +14,7 @@
 /// println!(_, "more informations without label");
 /// // -snip-
 /// println!(OutputLabel::Success("Finished"), "the compilation");
+/// # }
 /// ```
 ///
 /// For more see the [examples folder](https://github.com/MrNossiom/label-logger/tree/main/examples)
@@ -45,7 +46,6 @@ macro_rules! warn {
 	};
 }
 
-// TODO: document
 #[macro_export]
 macro_rules! info {
 	($info_label:expr, $($arg:tt)*) => {
@@ -53,7 +53,6 @@ macro_rules! info {
 	};
 }
 
-// TODO: document
 #[macro_export]
 macro_rules! success {
 	($success_label:expr, $($arg:tt)*) => {
