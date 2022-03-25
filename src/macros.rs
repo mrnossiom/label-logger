@@ -83,3 +83,44 @@ macro_rules! format_label {
 		$crate::pretty_output($label, format!($($arg)*))
 	};
 }
+
+#[cfg(test)]
+mod tests {
+	use crate::OutputLabel;
+
+	#[test]
+	fn println_macro_expand_without_errors() {
+		println!(_, "Hello, world!");
+		println!(OutputLabel::Error, "Hello")
+	}
+
+	#[test]
+	fn eprintln_macro_expand_without_errors() {
+		eprintln!("Hello, bug!");
+	}
+	#[test]
+	fn warn_macro_expand_without_errors() {
+		warn!("Hello, bug!");
+	}
+
+	#[test]
+	fn info_macro_expand_without_errors() {
+		info!("Message", "Hello, world!");
+	}
+
+	#[test]
+	fn success_macro_expand_without_errors() {
+		success!("Hey", "Hello, world!");
+	}
+
+	#[test]
+	fn print_r_macro_expand_without_errors() {
+		print_r!(OutputLabel::None, "Hello, world!");
+	}
+
+	#[test]
+	fn format_label_macro_expand_without_errors() {
+		format_label!(OutputLabel::Info("Hey"), "Hello, world!");
+		format_label!(_, "Hello, world!");
+	}
+}
