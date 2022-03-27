@@ -76,11 +76,8 @@ macro_rules! print_r {
 /// Formats your message with the specified output label
 #[macro_export]
 macro_rules! format_label {
-	(_, $($arg:tt)*) => {
-		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)*))
-	};
 	($label:expr, $($arg:tt)*) => {
-		$crate::pretty_output($label, format!($($arg)*))
+		$crate::pretty_output($label, format!($($arg)*), false)
 	};
 }
 
@@ -121,6 +118,5 @@ mod tests {
 	#[test]
 	fn format_label_macro_expand_without_errors() {
 		format_label!(OutputLabel::Info("Hey"), "Hello, world!");
-		format_label!(_, "Hello, world!");
 	}
 }

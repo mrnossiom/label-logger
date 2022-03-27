@@ -37,17 +37,17 @@ pub enum OutputLabel<'a> {
 pub fn println_label(label: OutputLabel, message: String) {
 	match label {
 		OutputLabel::Error => {
-			eprintln!("{}", pretty_output(label, message));
+			eprintln!("{}", pretty_output(label, message, true));
 		}
 		_ => {
-			println!("{}", pretty_output(label, message));
+			println!("{}", pretty_output(label, message, true));
 		}
 	}
 }
 
 /// Print a message with a label, add a carriage return at the end and flush the stdout
 pub fn print_r_label(label: OutputLabel, message: String) {
-	print!("{}\r", pretty_output(label, message));
+	print!("{}\r", pretty_output(label, message, true));
 
 	stdout().flush().unwrap_or_else(|_| {
 		println_label(OutputLabel::Error, "Could not flush stdout".to_string());
@@ -55,7 +55,7 @@ pub fn print_r_label(label: OutputLabel, message: String) {
 }
 
 /// Pretty a message with a given label and a given message colour
-pub fn pretty_output(out_label: OutputLabel, message: String) -> String {
+pub fn pretty_output(out_label: OutputLabel, message: String, fill_line: bool) -> String {
 	let (label, label_color) = match out_label {
 		OutputLabel::Error => (String::from("Error"), Color::Red),
 		OutputLabel::Warning => (String::from("Warn"), Color::Yellow),
@@ -72,7 +72,7 @@ pub fn pretty_output(out_label: OutputLabel, message: String) -> String {
 		(false, _) => format!("{} {}", label, message),
 		(true, _) => {
 			// PAD_OUTPUT is false if there is no tty connected to stdout.
-			// We can use unwrap() here safely.
+			// We should be able to use unwrap() here safely.
 			let (term_width, _) = terminal_dimensions().unwrap();
 
 			let label = Style::new()
@@ -81,15 +81,22 @@ pub fn pretty_output(out_label: OutputLabel, message: String) -> String {
 				.apply_to(label)
 				.to_string();
 
+			let message = shorten(message, term_width - LABEL_WIDTH - 1);
+
 			format!(
 				"{} {}",
 				pad_str(label.as_str(), LABEL_WIDTH, Alignment::Right, None),
-				pad_str(
-					shorten(message, term_width - LABEL_WIDTH - 1).as_str(),
-					term_width - LABEL_WIDTH - 1,
-					Alignment::Left,
-					None,
-				)
+				if fill_line {
+					pad_str(
+						message.as_str(),
+						term_width - LABEL_WIDTH - 1,
+						Alignment::Left,
+						None,
+					)
+					.to_string()
+				} else {
+					message
+				}
 			)
 		}
 	}
