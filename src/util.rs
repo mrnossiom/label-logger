@@ -1,11 +1,13 @@
+use console::measure_text_width;
+
 /// Shortens a message by omitting the middle part and replacing it with '...'
 ///
 /// If the given message is shorter than the available width, the
 /// original message will be returned
 pub fn shorten(message: String, max_width: usize) -> String {
-	let len = message.len();
+	let msg_length = measure_text_width(message.as_str());
 
-	if len <= max_width {
+	if msg_length <= max_width {
 		return message;
 	}
 
@@ -18,7 +20,7 @@ pub fn shorten(message: String, max_width: usize) -> String {
 		"...".to_owned(),
 		message
 			.chars()
-			.skip(len - max_width + break_index + 3)
+			.skip(msg_length - max_width + break_index + 3)
 			.collect(),
 	]
 	.join("");
