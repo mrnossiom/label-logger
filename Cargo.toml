@@ -9,5 +9,10 @@ edition = "2021"
 
 [dependencies]
 console = "0.15.0"
+dialoguer = { version = "0.10.0", optional = true }
 lazy_static = "1.4.0"
 term_size = "0.3.2"
+
+[features]
+default = []
+dialoguer = ["dep:dialoguer"]
