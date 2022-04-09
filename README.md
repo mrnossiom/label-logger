@@ -20,4 +20,6 @@ fn main() {
 
 > See [examples](https://github.com/MrNossiom/label-logger/tree/main/examples) for more use-case
 
-<!-- IDEA: add custom dialoguer theme under feature flag with a reexport -->
+## Thanks
+
+-   **[woobuc/sweep](https://github.com/woobuc/sweep)** for the logging theme idea.
