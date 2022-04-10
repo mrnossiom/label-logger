@@ -25,6 +25,7 @@ pub enum OutputLabel<'a> {
 	Info(&'a str),
 	/// Outputs the provided label in green
 	Success(&'a str),
+	// TODO: Custom accept styled object instead of string + color
 	/// Outputs the provided label in the provided color
 	Custom(&'a str, Color),
 	/// Outputs the provided label in yellow

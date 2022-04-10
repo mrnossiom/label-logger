@@ -54,7 +54,7 @@ pub struct LabelTheme {
 	/// Unpicked item in sort prefix value and style
 	pub unpicked_item_prefix: StyledObject<String>,
 	/// Formats the cursor for a fuzzy select prompt
-	#[cfg(feature = "fuzzy-select")]
+	#[cfg(feature = "dialoguer/fuzzy-select")]
 	pub fuzzy_cursor_style: Style,
 	/// Show the selections from certain prompts inline
 	pub inline_selections: bool,
@@ -81,7 +81,7 @@ impl Default for LabelTheme {
 			unchecked_item_prefix: style("✔".to_string()).for_stderr().black(),
 			picked_item_prefix: style("❯".to_string()).for_stderr().green(),
 			unpicked_item_prefix: style(" ".to_string()).for_stderr(),
-			#[cfg(feature = "fuzzy-select")]
+			#[cfg(feature = "dialoguer/fuzzy-select")]
 			fuzzy_cursor_style: Style::new().for_stderr().black().on_white(),
 			inline_selections: true,
 		}
@@ -193,13 +193,13 @@ impl Theme for LabelTheme {
 			Some(selection) => {
 				write!(
 					f,
-					"{} {}",
+					" {} {}",
 					&self.success_suffix,
 					self.values_style.apply_to(selection)
 				)
 			}
 			None => {
-				write!(f, "{}", &self.success_suffix)
+				write!(f, " {}", &self.success_suffix)
 			}
 		}
 	}
@@ -229,7 +229,7 @@ impl Theme for LabelTheme {
 	}
 
 	/// Formats a password prompt after selection.
-	#[cfg(feature = "password")]
+	#[cfg(feature = "dialoguer/password")]
 	fn format_password_prompt_selection(
 		&self,
 		f: &mut dyn fmt::Write,
@@ -277,7 +277,7 @@ impl Theme for LabelTheme {
 		text: &str,
 		active: bool,
 	) -> fmt::Result {
-		let details = if active {
+		let (prefix, item) = if active {
 			(
 				&self.active_item_prefix,
 				self.active_item_style.apply_to(text),
@@ -289,7 +289,12 @@ impl Theme for LabelTheme {
 			)
 		};
 
-		write_label!(f, OutputLabel::None, "{} {}", details.0, details.1)
+		write_label!(
+			f,
+			OutputLabel::Success(prefix.to_string().as_str()),
+			"{}",
+			item
+		)
 	}
 
 	/// Formats a multi select prompt item.
@@ -300,7 +305,7 @@ impl Theme for LabelTheme {
 		checked: bool,
 		active: bool,
 	) -> fmt::Result {
-		let details = match (checked, active) {
+		let (prefix, item) = match (checked, active) {
 			(true, true) => (
 				&self.checked_item_prefix,
 				self.active_item_style.apply_to(text),
@@ -319,7 +324,12 @@ impl Theme for LabelTheme {
 			),
 		};
 
-		write_label!(f, OutputLabel::None, "{} {}", details.0, details.1)
+		write_label!(
+			f,
+			OutputLabel::Success(prefix.to_string().as_str()),
+			"{}",
+			item
+		)
 	}
 
 	/// Formats a sort prompt item.
@@ -330,7 +340,7 @@ impl Theme for LabelTheme {
 		picked: bool,
 		active: bool,
 	) -> fmt::Result {
-		let details = match (picked, active) {
+		let (prefix, item) = match (picked, active) {
 			(true, true) => (
 				&self.picked_item_prefix,
 				self.active_item_style.apply_to(text),
@@ -345,11 +355,16 @@ impl Theme for LabelTheme {
 			),
 		};
 
-		write_label!(f, OutputLabel::None, "{} {}", details.0, details.1)
+		write_label!(
+			f,
+			OutputLabel::Success(prefix.to_string().as_str()),
+			"{}",
+			item
+		)
 	}
 
 	/// Formats a fuzzy-select prompt after selection.
-	#[cfg(feature = "fuzzy-select")]
+	#[cfg(feature = "dialoguer/fuzzy-select")]
 	fn format_fuzzy_select_prompt(
 		&self,
 		f: &mut dyn fmt::Write,
