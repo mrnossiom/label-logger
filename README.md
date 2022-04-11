@@ -18,7 +18,7 @@ fn main() {
 }
 ```
 
-> See [examples](https://github.com/MrNossiom/label_logger/tree/main/examples) for more use-case
+> See [examples](https://github.com/MrNossiom/label-logger/tree/main/examples) for more use-case
 
 ## Thanks
 

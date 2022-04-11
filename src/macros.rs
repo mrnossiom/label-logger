@@ -17,7 +17,7 @@
 /// # }
 /// ```
 ///
-/// For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
+/// For more see the [examples folder](https://github.com/MrNossiom/label-logger/tree/main/examples)
 /// **Note**: this macro replace the builtin println macro
 #[macro_export]
 macro_rules! println {
