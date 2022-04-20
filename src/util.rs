@@ -1,3 +1,5 @@
+//! Some utilities functions for the rest of the crate
+
 use console::measure_text_width;
 
 /// Shortens a message by omitting the middle part and replacing it with '...'

@@ -1,74 +1,73 @@
 // TODO: add more examples
-/// The replacement macro that uses core logger functions.
-///
-/// # Usage
-///
-/// ```rust
-/// # #[macro_use] extern crate label_logger;
-/// # fn main() {
-/// // In your function :
-/// use label_logger::OutputLabel;
-/// // -snip-
-/// println!(OutputLabel::Info("Compiling"), "the program");
-/// println!(_, "information without label");
-/// println!(_, "more informations without label");
-/// // -snip-
-/// println!(OutputLabel::Success("Finished"), "the compilation");
-/// # }
-/// ```
-///
-/// For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
-/// **Note**: this macro replace the builtin println macro
+//! The replacement macro that uses core logger functions.
+//!
+//! # Usage
+//!
+//! ```rust
+//! # #[macro_use] extern crate label_logger;
+//! # fn main() {
+//! info!(label: "Compiling", "the program");
+//! log!("information without label");
+//! log!("more informations without label");
+//! success!(label: "Finished", "the compilation");
+//! # }
+//! ```
+//!
+//! For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
+
+/// Prints a message with no or the provided label
 #[macro_export]
-macro_rules! println {
-	(_, $($arg:tt)*) => {
-			$crate::println_label($crate::OutputLabel::None, format!($($arg)*))
+macro_rules! log {
+	(label: $lbl:expr, $($arg:tt)+) => {
+		$crate::println_label($lbl, format!($($arg)+))
 	};
-	($label:expr, $($arg:tt)*) => {
-		$crate::println_label($label, format!($($arg)*))
+	($($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::None, format!($($arg)*))
 	};
 }
 
 // TODO: document
-/// **Note**: this replace the builtin eprintln macro
+/// Prints a message with the error label (prints to stdout)
 #[macro_export]
-macro_rules! eprintln {
-	($($arg:tt)*) => {
-		$crate::println_label($crate::OutputLabel::Error, format!($($arg)*))
+macro_rules! error {
+	(label: $lbl:tt, $($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Error($lbl), format!($($arg)+))
+	};
+	($($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Error("Error"), format!($($arg)+))
 	};
 }
 
 /// Prints a message with the warning label
 #[macro_export]
 macro_rules! warn {
+	(label: $lbl:expr, $($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Warning($lbl), format!($($arg)+))
+	};
 	($($arg:tt)*) => {
-		$crate::println_label($crate::OutputLabel::Warning, format!($($arg)*))
+		$crate::println_label($crate::OutputLabel::Warning("Warn"), format!($($arg)*))
 	};
 }
 
 /// Prints a message with the info label and the provided text
 #[macro_export]
 macro_rules! info {
-	($info_label:expr, $($arg:tt)*) => {
-		$crate::println_label($crate::OutputLabel::Info($info_label), format!($($arg)*))
+	(label: $lbl:expr, $($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Info($lbl), format!($($arg)+))
+	};
+	($($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Info("Info"), format!($($arg)+))
 	};
 }
 
 /// Prints a message with the success label and the provided text
 #[macro_export]
 macro_rules! success {
-	($success_label:expr, $($arg:tt)*) => {
-		$crate::println_label($crate::OutputLabel::Success($success_label), format!($($arg)*))
+	(label: $lbl:expr, $($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Success($lbl), format!($($arg)+))
 	};
-}
-
-// TODO: add usage example
-/// Print the given message with a carriage return at the end
-/// Useful for mid-process logging
-#[macro_export]
-macro_rules! print_r {
-	($label:expr, $($arg:tt)*) => {
-		$crate::print_r_label($label, format!($($arg)*))
+	($($arg:tt)+) => {
+		$crate::println_label($crate::OutputLabel::Success("Success"), format!($($arg)+))
 	};
 }
 
@@ -76,8 +75,11 @@ macro_rules! print_r {
 /// Formats your message with the specified output label
 #[macro_export]
 macro_rules! format_label {
-	($label:expr, $($arg:tt)*) => {
-		$crate::pretty_output($label, format!($($arg)*), false)
+	(label: $label:expr, $($arg:tt)+) => {
+		$crate::pretty_output($label, format!($($arg)+))
+	};
+	($($arg:tt)+) => {
+		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)+))
 	};
 }
 
@@ -86,37 +88,42 @@ mod tests {
 	use crate::OutputLabel;
 
 	#[test]
-	fn println_macro_expand_without_errors() {
-		println!(_, "Hello, world!");
-		println!(OutputLabel::Error, "Hello")
+	fn log_macro_expand() {
+		log!("Hello, world!");
+
+		log!(label: OutputLabel::Error("Error"), "Hello");
 	}
 
 	#[test]
-	fn eprintln_macro_expand_without_errors() {
-		eprintln!("Hello, bug!");
-	}
-	#[test]
-	fn warn_macro_expand_without_errors() {
-		warn!("Hello, bug!");
+	fn error_macro_expand() {
+		error!("Hello, error!");
+
+		error!(label: "Bip Bip", "alert, everything is broken");
 	}
 
 	#[test]
-	fn info_macro_expand_without_errors() {
-		info!("Message", "Hello, world!");
+	fn warn_macro_expand() {
+		warn!("Hello, warn!");
+
+		warn!(label: "Wow", "there is a bug here!");
 	}
 
 	#[test]
-	fn success_macro_expand_without_errors() {
-		success!("Hey", "Hello, world!");
+	fn info_macro_expand() {
+		info!("Hello, info!");
+
+		info!(label: "Ping", "new message");
 	}
 
 	#[test]
-	fn print_r_macro_expand_without_errors() {
-		print_r!(OutputLabel::None, "Hello, world!");
+	fn success_macro_expand() {
+		success!("Hello, success!");
+
+		success!(label: "Nice", "you succeed!");
 	}
 
 	#[test]
-	fn format_label_macro_expand_without_errors() {
-		format_label!(OutputLabel::Info("Hey"), "Hello, world!");
+	fn format_label_macro_expand() {
+		format_label!(label: OutputLabel::Info("Hey"), "Hello, world!");
 	}
 }

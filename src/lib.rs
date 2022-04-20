@@ -1,4 +1,4 @@
-#![warn(missing_docs)]
+#![warn(clippy::missing_docs_in_private_items)]
 // TODO: add logo
 // #![doc(html_favicon_url = "https://example.com/favicon.ico")]
 // #![doc(html_logo_url = "https://example.com/logo.jpg")]

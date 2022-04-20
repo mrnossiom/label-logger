@@ -1,3 +1,5 @@
+//! A custom theme for the dialoguer crate
+
 use crate::OutputLabel;
 use dialoguer::{
 	console::{style, Style, StyledObject},
@@ -5,12 +7,13 @@ use dialoguer::{
 };
 use std::fmt;
 
+/// A little private macro to simplify writing in a formatter with a label
 macro_rules! write_label {
 	($dst:expr, $label:expr, $($arg:tt)*) => {
 		write!(
 			$dst,
 			"{}",
-			$crate::pretty_output($label, format!($($arg)*), false)
+			$crate::pretty_output($label, format!($($arg)*))
 		)
 	};
 }
@@ -65,22 +68,22 @@ impl Default for LabelTheme {
 		Self {
 			defaults_style: Style::new().for_stderr().cyan(),
 			prompt_style: Style::new().for_stderr().bold(),
-			prompt_prefix: style("?".to_string()).for_stderr().yellow(),
-			prompt_suffix: style("›".to_string()).for_stderr().black().bright(),
-			success_prefix: style("✔".to_string()).for_stderr().green(),
-			success_suffix: style("·".to_string()).for_stderr().black().bright(),
-			error_prefix: style("✘".to_string()).for_stderr().red(),
+			prompt_prefix: style("?".into()).for_stderr().yellow(),
+			prompt_suffix: style("›".into()).for_stderr().black().bright(),
+			success_prefix: style("✔".into()).for_stderr().green(),
+			success_suffix: style("·".into()).for_stderr().black().bright(),
+			error_prefix: style("✘".into()).for_stderr().red(),
 			error_style: Style::new().for_stderr().red(),
 			hint_style: Style::new().for_stderr().black().bright(),
 			values_style: Style::new().for_stderr().green(),
 			active_item_style: Style::new().for_stderr().cyan(),
 			inactive_item_style: Style::new().for_stderr(),
-			active_item_prefix: style("❯".to_string()).for_stderr().green(),
-			inactive_item_prefix: style(" ".to_string()).for_stderr(),
-			checked_item_prefix: style("✔".to_string()).for_stderr().green(),
-			unchecked_item_prefix: style("✔".to_string()).for_stderr().black(),
-			picked_item_prefix: style("❯".to_string()).for_stderr().green(),
-			unpicked_item_prefix: style(" ".to_string()).for_stderr(),
+			active_item_prefix: style("❯".into()).for_stderr().green(),
+			inactive_item_prefix: style(" ".into()).for_stderr(),
+			checked_item_prefix: style("✔".into()).for_stderr().green(),
+			unchecked_item_prefix: style("✔".into()).for_stderr().black(),
+			picked_item_prefix: style("❯".into()).for_stderr().green(),
+			unpicked_item_prefix: style(" ".into()).for_stderr(),
 			#[cfg(feature = "dialoguer/fuzzy-select")]
 			fuzzy_cursor_style: Style::new().for_stderr().black().on_white(),
 			inline_selections: true,
@@ -93,7 +96,7 @@ impl Theme for LabelTheme {
 	fn format_prompt(&self, f: &mut dyn fmt::Write, prompt: &str) -> fmt::Result {
 		write_label!(
 			f,
-			OutputLabel::Prompt(self.prompt_prefix.to_string().as_str()),
+			OutputLabel::Custom(self.prompt_prefix.to_string().as_str()),
 			"{}",
 			self.prompt_style.apply_to(prompt)
 		)
@@ -103,7 +106,7 @@ impl Theme for LabelTheme {
 	fn format_error(&self, f: &mut dyn fmt::Write, err: &str) -> fmt::Result {
 		write_label!(
 			f,
-			OutputLabel::Prompt(self.error_prefix.to_string().as_str()),
+			OutputLabel::Custom(self.error_prefix.to_string().as_str()),
 			"{}",
 			self.error_style.apply_to(err)
 		)
@@ -127,7 +130,7 @@ impl Theme for LabelTheme {
 
 		write_label!(
 			f,
-			OutputLabel::Prompt(self.prompt_prefix.to_string().as_str()),
+			OutputLabel::Custom(self.prompt_prefix.to_string().as_str()),
 			"{} {}",
 			self.prompt_style.apply_to(prompt),
 			suffix
@@ -163,7 +166,7 @@ impl Theme for LabelTheme {
 
 		write_label!(
 			f,
-			OutputLabel::Prompt(self.prompt_prefix.to_string().as_str()),
+			OutputLabel::Custom(self.prompt_prefix.to_string().as_str()),
 			"{} {}",
 			self.prompt_style.apply_to(prompt),
 			yes_no_hint

@@ -1,9 +1,9 @@
 [package]
-name = "label_logger"
+name = "label-logger"
 description = "A Cargo-like logging library"
 repository = "https://github.com/MrNossiom/label_logger"
 license = "MIT"
-version = "1.0.0-alpha.8"
+version = "1.0.0-alpha.9"
 edition = "2021"
 
 [dependencies]
