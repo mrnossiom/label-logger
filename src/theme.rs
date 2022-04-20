@@ -223,12 +223,16 @@ impl Theme for LabelTheme {
 			)?;
 		}
 
-		write!(
-			f,
-			" {} {}",
-			&self.success_suffix,
-			self.values_style.apply_to(sel)
-		)
+		if !sel.is_empty() {
+			write!(
+				f,
+				" {} {}",
+				&self.success_suffix,
+				self.values_style.apply_to(sel)
+			)?;
+		}
+
+		Ok(())
 	}
 
 	/// Formats a password prompt after selection.
