@@ -16,70 +16,70 @@
 //! For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
 
 /// Prints a message with no or the provided label
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! log {
 	(label: $lbl:expr, $($arg:tt)+) => {
-		$crate::println_label($lbl, format!($($arg)+))
+		$crate::println_label($lbl, std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::None, format!($($arg)*))
+		$crate::println_label($crate::OutputLabel::None, std::format!($($arg)*))
 	};
 }
 
 // TODO: document
 /// Prints a message with the error label (prints to stdout)
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! error {
 	(label: $lbl:tt, $($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Error($lbl), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Error($lbl), std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Error("Error"), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Error("Error"), std::format!($($arg)+))
 	};
 }
 
 /// Prints a message with the warning label
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! warn {
 	(label: $lbl:expr, $($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Warning($lbl), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Warning($lbl), std::format!($($arg)+))
 	};
 	($($arg:tt)*) => {
-		$crate::println_label($crate::OutputLabel::Warning("Warn"), format!($($arg)*))
+		$crate::println_label($crate::OutputLabel::Warning("Warn"), std::format!($($arg)*))
 	};
 }
 
 /// Prints a message with the info label and the provided text
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! info {
 	(label: $lbl:expr, $($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Info($lbl), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Info($lbl), std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Info("Info"), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Info("Info"), std::format!($($arg)+))
 	};
 }
 
 /// Prints a message with the success label and the provided text
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! success {
 	(label: $lbl:expr, $($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Success($lbl), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Success($lbl), std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::Success("Success"), format!($($arg)+))
+		$crate::println_label($crate::OutputLabel::Success("Success"), std::format!($($arg)+))
 	};
 }
 
 // TODO: document
 /// Formats your message with the specified output label
-#[macro_export]
+#[macro_export(local_inner_macros)]
 macro_rules! format_label {
 	(label: $label:expr, $($arg:tt)+) => {
-		$crate::pretty_output($label, format!($($arg)+))
+		$crate::pretty_output($label, std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::pretty_output($crate::OutputLabel::None, format!($($arg)+))
+		$crate::pretty_output($crate::OutputLabel::None, std::format!($($arg)+))
 	};
 }
 
