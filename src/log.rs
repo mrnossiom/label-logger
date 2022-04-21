@@ -1,8 +1,7 @@
 //! The actual implementation of the logger core
 
 use crate::util::shorten;
-use console::{pad_str, Alignment, Style, Term};
-use std::io::{stdout, Write};
+use console::{pad_str, style, Alignment, Term};
 use term_size::dimensions as terminal_dimensions;
 
 // This checks if colors can be enabled on windows.
@@ -46,27 +45,15 @@ pub fn println_label(label: OutputLabel, message: String) {
 	}
 }
 
-/// Print a message with a label, add a carriage return at the end and flush the stdout
-pub fn print_r_label(label: OutputLabel, message: String) {
-	print!("{}\r", pretty_output(label, message));
-
-	stdout().flush().unwrap_or_else(|_| {
-		println_label(
-			OutputLabel::Error("Error"),
-			"Could not flush stdout".to_string(),
-		);
-	});
-}
-
 /// Pretty a message with a given label and a given message color
 pub fn pretty_output(out_label: OutputLabel, message: String) -> String {
 	let label = match out_label {
-		OutputLabel::Error(error) => Style::new().bold().red().apply_to(error),
-		OutputLabel::Warning(warn) => Style::new().bold().yellow().apply_to(warn),
-		OutputLabel::Info(info) => Style::new().bold().blue().apply_to(info),
-		OutputLabel::Success(success) => Style::new().bold().green().apply_to(success),
-		OutputLabel::Custom(custom) => Style::new().apply_to(custom),
-		OutputLabel::None => Style::new().apply_to(""),
+		OutputLabel::Error(error) => style(error).bold().red(),
+		OutputLabel::Warning(warn) => style(warn).bold().yellow(),
+		OutputLabel::Info(info) => style(info).bold().blue(),
+		OutputLabel::Success(success) => style(success).bold().green(),
+		OutputLabel::Custom(custom) => style(custom),
+		OutputLabel::None => style(""),
 	};
 
 	match (*PAD_OUTPUT, out_label) {
