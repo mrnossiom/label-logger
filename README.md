@@ -2,6 +2,16 @@
 
 > A Cargo-like logging library.
 
+# Installation
+
+> This library is still under development and breaking API changes can happen at all time.
+
+Add this to your `Cargo.toml`
+
+```toml
+label-logger = { git = "https://gituhb.com/MrNossiom/label-logger", branch = "main" }
+```
+
 # Usage
 
 ```rust
