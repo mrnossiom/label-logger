@@ -3,14 +3,14 @@ name = "label-logger"
 description = "A Cargo-like logging library"
 repository = "https://github.com/MrNossiom/label-logger"
 license = "MIT"
-version = "1.0.0-alpha.8"
+version = "1.0.0-alpha.9"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-console = "0.15.0"
-dialoguer = { version = "0.10.0", optional = true }
+console = "0.15.2"
+dialoguer = { version = "0.10.2", optional = true }
 lazy_static = "1.4.0"
 term_size = "0.3.2"
 

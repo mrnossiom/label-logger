@@ -6,7 +6,7 @@ use term_size::dimensions as terminal_dimensions;
 
 // This checks if colors can be enabled on windows.
 // It also checks if the output is piped and simplify the output for better debugging
-lazy_static! {
+lazy_static::lazy_static! {
 	pub static ref PAD_OUTPUT: bool = {
 		// Pad output if the stdout is a tty
 		Term::stdout().is_term()

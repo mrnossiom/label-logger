@@ -15,9 +15,6 @@ label-logger = { git = "https://gituhb.com/MrNossiom/label-logger", branch = "ma
 # Usage
 
 ```rust
-// You can either import all the macros at once globally...
-#[macro_use] extern crate label_logger;
-// ...or import them one by one in every crate
 use label_logger::{info, log, success};
 
 fn main() {
