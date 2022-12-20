@@ -1,7 +1,8 @@
 //! The actual implementation of the logger core
 
 use crate::util::shorten;
-use console::{pad_str, style, Alignment, Term};
+use console::{pad_str, style, Alignment, StyledObject, Term};
+use std::fmt::Display;
 use term_size::dimensions as terminal_dimensions;
 
 // This checks if colors can be enabled on windows.
@@ -26,15 +27,14 @@ pub enum OutputLabel<'a> {
 	Info(&'a str),
 	/// Outputs the provided label in green
 	Success(&'a str),
-	// TODO: Custom accept styled object instead of string + color
 	/// Outputs the provided label in the provided color
-	Custom(&'a str),
+	Custom(StyledObject<&'a str>),
 	/// Outputs a blank space with no label
 	None,
 }
 
 /// Print a message with the specified label
-pub fn println_label(label: OutputLabel, message: String) {
+pub fn println_label<M: AsRef<str> + Display>(label: OutputLabel, message: M) {
 	match label {
 		OutputLabel::Error(_) => {
 			eprintln!("{}", pretty_output(label, message));
@@ -46,37 +46,43 @@ pub fn println_label(label: OutputLabel, message: String) {
 }
 
 /// Pretty a message with a given label and a given message color
-pub fn pretty_output(out_label: OutputLabel, message: String) -> String {
-	let label = match out_label {
-		OutputLabel::Error(error) => style(error).bold().red(),
-		OutputLabel::Warning(warn) => style(warn).bold().yellow(),
-		OutputLabel::Info(info) => style(info).bold().blue(),
-		OutputLabel::Success(success) => style(success).bold().green(),
-		OutputLabel::Custom(custom) => style(custom),
-		OutputLabel::None => style(""),
+///
+/// # Panics
+/// We panic if we can't determine the width of the stdout `TTY`.
+/// But it is only used in a part where we check that we are connected a real `TTY`
+pub fn pretty_output<M: AsRef<str> + Display>(out_label: OutputLabel, message: M) -> String {
+	let (label, label_is_empty) = match out_label {
+		OutputLabel::Error(error) => (style(error).bold().red(), false),
+		OutputLabel::Warning(warn) => (style(warn).bold().yellow(), false),
+		OutputLabel::Info(info) => (style(info).bold().cyan(), false),
+		OutputLabel::Success(success) => (style(success).bold().green(), false),
+		OutputLabel::Custom(custom) => (custom, false),
+		OutputLabel::None => (style(""), true),
 	};
 
-	match (*PAD_OUTPUT, out_label) {
+	if *PAD_OUTPUT {
+		// PAD_OUTPUT is false if there is no tty connected to stdout.
+		// Thus we can unwrap safely.
+		let (term_width, _) = terminal_dimensions().expect("to be connected to a TTY");
+
+		let message = shorten(message.to_string(), term_width - LABEL_WIDTH - 1);
+
+		format!(
+			"{} {}",
+			pad_str(
+				label.to_string().as_str(),
+				LABEL_WIDTH,
+				Alignment::Right,
+				None
+			),
+			message
+		)
+	} else {
 		// Special case for piped output, none label adds a tabulation at the start
-		(false, OutputLabel::None) => format!("\t{}", message),
-		(false, _) => format!("{} {}", label, message),
-		(true, _) => {
-			// PAD_OUTPUT is false if there is no tty connected to stdout.
-			// We should be able to use unwrap() here safely.
-			let (term_width, _) = terminal_dimensions().unwrap();
-
-			let message = shorten(message, term_width - LABEL_WIDTH - 1);
-
-			format!(
-				"{} {}",
-				pad_str(
-					label.to_string().as_str(),
-					LABEL_WIDTH,
-					Alignment::Right,
-					None
-				),
-				message
-			)
+		if label_is_empty {
+			format!("\t{message}")
+		} else {
+			format!("{label} {message}")
 		}
 	}
 }

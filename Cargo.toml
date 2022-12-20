@@ -11,6 +11,7 @@ edition = "2021"
 [dependencies]
 console = "0.15.2"
 dialoguer = { version = "0.10.2", optional = true }
+indicatif = { version = "0.17.2", optional = true }
 lazy_static = "1.4.0"
 term_size = "0.3.2"
 
