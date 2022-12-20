@@ -21,11 +21,13 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: check
+          args: --all-features
 
       - name: Cargo Tests
         uses: actions-rs/cargo@v1
         with:
           command: test
+          args: --all-features
 
       - name: Format Check
         uses: actions-rs/cargo@v1
