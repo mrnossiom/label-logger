@@ -1,22 +1,25 @@
-// TODO: add more examples
 //! The replacement macro that uses core logger functions.
 //!
 //! # Usage
 //!
 //! ```rust
-//! # fn main() {
-//! pub use label_logger::{info, log, success};
+//! use label_logger::{info, log, success};
 //!
 //! info!(label: "Compiling", "the program");
 //! log!("information without label");
 //! log!("more informations without label");
 //! success!(label: "Finished", "the compilation");
-//! # }
 //! ```
 //!
 //! For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
 
 /// Prints a message with no or the provided label
+///
+/// ```
+/// # use label_logger::log;
+///
+/// log!("Hello, world!");
+/// ```
 #[macro_export]
 macro_rules! log {
 	(label: $lbl:expr, $($arg:tt)+) => {
@@ -27,8 +30,15 @@ macro_rules! log {
 	};
 }
 
-// TODO: document
-/// Prints a message with the error label (prints to stdout)
+/// Prints a message with the error label (prints to `stderr`)
+///
+/// ```
+/// # use label_logger::error;
+///
+/// error!("An error occurred while deactivating the nuclear core");
+/// // "Boom" will be displayed in red as a label
+/// error!(label: "Boom", "it is too late");
+/// ```
 #[macro_export]
 macro_rules! error {
 	(label: $lbl:tt, $($arg:tt)+) => {
@@ -40,6 +50,14 @@ macro_rules! error {
 }
 
 /// Prints a message with the warning label
+///
+/// ```
+/// # use label_logger::warn;
+///
+/// warn!("This is fine, there are only 2849 warnings, but no errors");
+/// // "Tic Tac" will be displayed in yellow as a label
+/// warn!(label: "Tic Tac", "run forest, run!");
+/// ```
 #[macro_export]
 macro_rules! warn {
 	(label: $lbl:expr, $($arg:tt)+) => {
@@ -51,6 +69,14 @@ macro_rules! warn {
 }
 
 /// Prints a message with the info label and the provided text
+///
+/// ```
+/// # use label_logger::info;
+///
+/// info!("Cleaning up the mess that was made");
+/// // "Waiting" will be displayed in cyan (light blue) as a label
+/// info!(label: "Waiting", "for OAuth2 callback");
+/// ```
 #[macro_export]
 macro_rules! info {
 	(label: $lbl:expr, $($arg:tt)+) => {
@@ -62,6 +88,14 @@ macro_rules! info {
 }
 
 /// Prints a message with the success label and the provided text
+///
+/// ```
+/// # use label_logger::success;
+///
+/// success!("temporary file successfully deleted");
+/// // "Waouh" will be displayed in green as a label
+/// success!(label: "Waouh", "you successfully did not went on StackOverflow for 5min");
+/// ```
 #[macro_export]
 macro_rules! success {
 	(label: $lbl:expr, $($arg:tt)+) => {
@@ -72,8 +106,33 @@ macro_rules! success {
 	};
 }
 
-// TODO: document
 /// Formats your message with the specified output label
+///
+/// ```
+/// # use label_logger::{format_label, OutputLabel};
+///
+/// let _msg = format_label!(
+///     label: OutputLabel::Info("Building"),
+///     "one crate at a time"
+/// );
+/// ```
+///
+/// # Example
+///
+/// It can be useful when you need to have a correctly formatted message but you don't want to print it directly to the terminal.
+///
+/// ```
+/// use label_logger::{format_label, OutputLabel};
+/// use indicatif::ProgressBar;
+///
+/// let mut bar = ProgressBar::new(100);
+/// let msg = format_label!(
+///    label: OutputLabel::Info("Building"),
+///   "one crate at a time"
+/// );
+///
+/// bar.set_message(msg);
+/// ```
 #[macro_export]
 macro_rules! format_label {
 	(label: $label:expr, $($arg:tt)+) => {

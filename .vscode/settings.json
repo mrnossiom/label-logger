@@ -1,0 +1,9 @@
+{
+	"rust-analyzer.cargo.features": [
+		"dialoguer",
+		"dialoguer/fuzzy-select",
+		"dialoguer/password",
+		"indicatif"
+	],
+	"cSpell.words": ["pkey"]
+}
