@@ -17,4 +17,5 @@ term_size = "0.3.2"
 
 [features]
 default = []
-dialoguer = ["dep:dialoguer", "dialoguer/fuzzy-select", "dialoguer/password"]
+dialoguer = ["dep:dialoguer"]
+indicatif = ["dep:indicatif"]
