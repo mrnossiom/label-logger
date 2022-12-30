@@ -26,7 +26,7 @@ macro_rules! log {
 		$crate::println_label($lbl, std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::println_label($crate::OutputLabel::None, std::format!($($arg)*))
+		$crate::println_label($crate::OutputLabel::default(), std::format!($($arg)*))
 	};
 }
 
@@ -139,7 +139,7 @@ macro_rules! format_label {
 		$crate::pretty_output($label, std::format!($($arg)+))
 	};
 	($($arg:tt)+) => {
-		$crate::pretty_output($crate::OutputLabel::None, std::format!($($arg)+))
+		$crate::pretty_output($crate::OutputLabel::default(), std::format!($($arg)+))
 	};
 }
 

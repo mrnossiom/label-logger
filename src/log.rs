@@ -2,22 +2,18 @@
 
 use crate::util::shorten;
 use console::{pad_str, style, Alignment, StyledObject, Term};
+use once_cell::sync::OnceCell;
 use std::fmt::Display;
 use term_size::dimensions as terminal_dimensions;
 
-// This checks if colors can be enabled on windows.
-// It also checks if the output is piped and simplify the output for better debugging
-lazy_static::lazy_static! {
-	pub static ref PAD_OUTPUT: bool = {
-		// Pad output if the stdout is a tty
-		Term::stdout().is_term()
-	};
-}
+/// Checks if the output is piped and simplify the output for better debugging
+pub static PAD_OUTPUT: OnceCell<bool> = OnceCell::new();
 
 /// The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
 
 /// The enum of possible output labels
+#[derive(Default)]
 pub enum OutputLabel<'a> {
 	/// Outputs `Error` in red
 	Error(&'a str),
@@ -30,6 +26,7 @@ pub enum OutputLabel<'a> {
 	/// Outputs the provided label in the provided color
 	Custom(StyledObject<&'a str>),
 	/// Outputs a blank space with no label
+	#[default]
 	None,
 }
 
@@ -60,7 +57,8 @@ pub fn pretty_output<M: AsRef<str> + Display>(out_label: OutputLabel, message: M
 		OutputLabel::None => (style(""), true),
 	};
 
-	if *PAD_OUTPUT {
+	// Pad output if the stdout is a tty
+	if *PAD_OUTPUT.get_or_init(|| Term::stdout().is_term()) {
 		// PAD_OUTPUT is false if there is no tty connected to stdout.
 		// Thus we can unwrap safely.
 		let (term_width, _) = terminal_dimensions().expect("to be connected to a TTY");
