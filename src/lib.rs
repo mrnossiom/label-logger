@@ -5,7 +5,9 @@
 	clippy::pedantic,
 	clippy::cargo
 )]
-#![doc(html_logo_url = "https://raw.githubusercontent.com/MrNossiom/label-logger/main/logo.png")]
+#![doc(
+	html_logo_url = "https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo.png"
+)]
 #![doc = include_str!("../README.md")]
 
 #[cfg(feature = "dialoguer")]
