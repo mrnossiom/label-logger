@@ -1,4 +1,4 @@
-![Label Logger](https://raw.githubusercontent.com/MrNossiom/git-leave/main/assets/logo.png)
+![Label Logger](https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo.png)
 
 # Label Logger
 
