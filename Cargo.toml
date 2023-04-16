@@ -1,6 +1,6 @@
 [package]
 name = "label-logger"
-version = "1.0.0-alpha.9"
+version = "0.2.0"
 description = "A Cargo-like logging library"
 authors = ["Milo Moisson <milomoisson@gmail.com>"]
 repository = "https://github.com/MrNossiom/label-logger"
