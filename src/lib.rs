@@ -1,12 +1,5 @@
-#![warn(
-	clippy::missing_docs_in_private_items,
-	clippy::unwrap_used,
-	clippy::nursery,
-	clippy::pedantic,
-	clippy::cargo
-)]
 #![doc(
-	html_logo_url = "https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo.png"
+	html_logo_url = "https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo-squared.png"
 )]
 #![doc = include_str!("../README.md")]
 
@@ -24,5 +17,4 @@ pub use crate::dialoguer::LabelTheme;
 #[cfg(feature = "indicatif")]
 pub use crate::indicatif::label_theme;
 pub use crate::log::{pretty_output, println_label, OutputLabel};
-pub use crate::macros::*;
 pub use console;

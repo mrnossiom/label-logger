@@ -1,6 +1,4 @@
-#[macro_use]
-extern crate label_logger;
-
+use label_logger::{error, format_label, info, success, warn};
 use std::{
 	io::{stdout, Write},
 	thread::sleep,

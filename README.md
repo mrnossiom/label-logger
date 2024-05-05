@@ -1,18 +1,8 @@
 ![Label Logger](https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo.png)
 
-# Label Logger
-
-"A Cargo-like logging library."
-
-## Installation
-
-> This library is still under development and breaking API changes can happen at all time.
-
-Add this to your `Cargo.toml`
-
-```toml
-label-logger = { git = "https://github.com/MrNossiom/label-logger", branch = "main" }
-```
+<p align="center"><strong>
+Cargo-like logging library
+</strong></p>
 
 ## Usage
 
@@ -33,3 +23,9 @@ See [**examples**](https://github.com/MrNossiom/label-logger/tree/main/examples)
 
 -   **[woobuc/sweep](https://github.com/woobuc/sweep)** for the logging theme idea.
 -   **[rust-lang/log](https://github.com/rust-lang/log)** for macros inspiration.
+
+This library is still under development and breaking API changes can happen at all time.
+
+---
+
+Work is licensed under [`CECILL-2.1`](https://choosealicense.com/licenses/cecill-2.1/), a French OSS license that allows modification and distribution of the software while requiring the same license for derived works.

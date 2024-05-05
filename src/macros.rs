@@ -17,7 +17,6 @@
 ///
 /// ```
 /// # use label_logger::log;
-///
 /// log!("Hello, world!");
 /// ```
 #[macro_export]
@@ -34,7 +33,6 @@ macro_rules! log {
 ///
 /// ```
 /// # use label_logger::error;
-///
 /// error!("An error occurred while deactivating the nuclear core");
 /// // "Boom" will be displayed in red as a label
 /// error!(label: "Boom", "it is too late");
@@ -53,7 +51,6 @@ macro_rules! error {
 ///
 /// ```
 /// # use label_logger::warn;
-///
 /// warn!("This is fine, there are only 2849 warnings, but no errors");
 /// // "Tic Tac" will be displayed in yellow as a label
 /// warn!(label: "Tic Tac", "run forest, run!");
@@ -72,7 +69,6 @@ macro_rules! warn {
 ///
 /// ```
 /// # use label_logger::info;
-///
 /// info!("Cleaning up the mess that was made");
 /// // "Waiting" will be displayed in cyan (light blue) as a label
 /// info!(label: "Waiting", "for OAuth2 callback");
@@ -91,7 +87,6 @@ macro_rules! info {
 ///
 /// ```
 /// # use label_logger::success;
-///
 /// success!("temporary file successfully deleted");
 /// // "Waouh" will be displayed in green as a label
 /// success!(label: "Waouh", "you successfully did not went on StackOverflow for 5min");
@@ -110,7 +105,6 @@ macro_rules! success {
 ///
 /// ```
 /// # use label_logger::{format_label, OutputLabel};
-///
 /// let _msg = format_label!(
 ///     label: OutputLabel::Info("Building"),
 ///     "one crate at a time"
@@ -121,7 +115,8 @@ macro_rules! success {
 ///
 /// It can be useful when you need to have a correctly formatted message but you don't want to print it directly to the terminal.
 ///
-/// ```
+// indicatif is only available on `indicatif` feature
+/// ```ignore
 /// use label_logger::{format_label, OutputLabel};
 /// use indicatif::ProgressBar;
 ///

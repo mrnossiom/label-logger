@@ -1,9 +1,12 @@
 //! The actual implementation of the logger core
 
 use crate::util::shorten;
-use console::{pad_str, style, Alignment, StyledObject, Term};
+use console::{pad_str, style, Alignment, StyledObject};
 use once_cell::sync::OnceCell;
-use std::fmt::Display;
+use std::{
+	fmt::Display,
+	io::{stdout, IsTerminal},
+};
 use term_size::dimensions as terminal_dimensions;
 
 /// Checks if the output is piped and simplify the output for better debugging
@@ -58,10 +61,8 @@ pub fn pretty_output<M: AsRef<str> + Display>(out_label: OutputLabel, message: M
 	};
 
 	// Pad output if the stdout is a tty
-	if *PAD_OUTPUT.get_or_init(|| Term::stdout().is_term()) {
-		// PAD_OUTPUT is false if there is no tty connected to stdout.
-		// Thus we can unwrap safely.
-		let (term_width, _) = terminal_dimensions().expect("to be connected to a TTY");
+	if *PAD_OUTPUT.get_or_init(|| stdout().is_terminal()) {
+		let (term_width, _) = terminal_dimensions().unwrap_or((80, 80));
 
 		let message = shorten(message.to_string(), term_width - LABEL_WIDTH - 1);
 
