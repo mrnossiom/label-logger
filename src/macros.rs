@@ -10,8 +10,6 @@
 //! log!("more informations without label");
 //! success!(label: "Finished", "the compilation");
 //! ```
-//!
-//! For more see the [examples folder](https://github.com/MrNossiom/label_logger/tree/main/examples)
 
 /// Prints a message with no or the provided label
 ///

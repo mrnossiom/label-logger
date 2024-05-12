@@ -6,6 +6,13 @@
 Cargo-like logging library
 </strong></p>
 
+<p align="center">
+  <a src="https://wakatime.com/badge/github/mrnossiom/label-logger">
+    <img alt="Time spent" src="https://wakatime.com/badge/github/mrnossiom/label-logger.svg" />
+  </a>
+</p>
+
+
 # Usage
 
 ```rust

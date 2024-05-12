@@ -1,5 +1,5 @@
 #![doc(
-	html_logo_url = "https://raw.githubusercontent.com/MrNossiom/label-logger/main/assets/logo-squared.png"
+	html_logo_url = "https://raw.githubusercontent.com/mrnossiom/label-logger/main/assets/logo-squared.png"
 )]
 #![doc = include_str!("../README.md")]
 
