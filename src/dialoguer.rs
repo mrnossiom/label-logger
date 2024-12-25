@@ -57,7 +57,6 @@ pub struct LabelTheme<'a> {
 	/// Unpicked item in sort prefix value and style
 	pub unpicked_item_prefix: StyledObject<&'a str>,
 	/// Formats the cursor for a fuzzy select prompt
-	#[cfg(feature = "dialoguer/fuzzy-select")]
 	pub fuzzy_cursor_style: Style,
 	/// Show the selections from certain prompts inline
 	pub inline_selections: bool,
@@ -84,7 +83,6 @@ impl Default for LabelTheme<'_> {
 			unchecked_item_prefix: style("✔").for_stderr().black(),
 			picked_item_prefix: style("❯").for_stderr().green(),
 			unpicked_item_prefix: style(" ").for_stderr(),
-			#[cfg(feature = "dialoguer/fuzzy-select")]
 			fuzzy_cursor_style: Style::new().for_stderr().black().on_white(),
 			inline_selections: true,
 		}
@@ -237,7 +235,6 @@ impl Theme for LabelTheme<'_> {
 	}
 
 	/// Formats a password prompt after selection.
-	#[cfg(feature = "dialoguer/password")]
 	fn format_password_prompt_selection(
 		&self,
 		f: &mut dyn fmt::Write,
@@ -372,7 +369,6 @@ impl Theme for LabelTheme<'_> {
 	}
 
 	/// Formats a fuzzy-select prompt after selection.
-	#[cfg(feature = "dialoguer/fuzzy-select")]
 	fn format_fuzzy_select_prompt(
 		&self,
 		f: &mut dyn fmt::Write,

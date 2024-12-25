@@ -64,8 +64,8 @@ fn init_config() -> Result<Option<Config>, Box<dyn Error>> {
 	};
 
 	Ok(Some(Config {
-		hostname,
 		interface,
+		hostname,
 		use_acme,
 		private_key,
 		cert,

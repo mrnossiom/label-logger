@@ -75,7 +75,7 @@ fn main() {
 
 	drop(tx);
 
-	let mut processing = vec![None; NUM_CPUS];
+	let mut processing = [None; NUM_CPUS];
 	while let Ok((n, krate)) = rx.recv() {
 		processing[n] = krate;
 

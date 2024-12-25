@@ -1,19 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    gitignore = {
-      url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, rust-overlay, gitignore }:
+  outputs = { self, nixpkgs, rust-overlay }:
     let
       inherit (nixpkgs.lib) genAttrs;
 
@@ -28,11 +21,6 @@
     {
       formatter = forAllPkgs (pkgs: pkgs.nixpkgs-fmt);
 
-      packages = forAllPkgs (pkgs: rec {
-        default = app;
-        app = pkgs.callPackage ./package.nix { inherit gitignore; };
-      });
-
       devShells = forAllPkgs (pkgs:
         with pkgs.lib;
         let
@@ -46,6 +34,7 @@
               rust-toolchain
               act
             ];
+
             buildInputs = with pkgs; [ ];
 
             RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;

@@ -3,6 +3,9 @@ name = "label-logger"
 version = "0.2.1"
 edition = "2021"
 
+# Most recent std item is `LazyLock`
+rust-version = "1.80.0"
+
 description = "Cargo-like logging library"
 authors = ["Milo Moisson <milomoisson@gmail.com>"]
 repository = "https://github.com/mrnossiom/label-logger"
@@ -11,15 +14,16 @@ keywords = ["label", "pretty-logs", "cargo"]
 categories = ["rendering"]
 
 [dependencies]
-console = "0.15.5"
-dialoguer = { version = "0.10.4", optional = true }
-indicatif = { version = "0.17.3", optional = true }
-once_cell = "1.17.1"
-term_size = "0.3.2"
+console = "0.15"
+once_cell = "1.17"
+term_size = "0.3"
+
+dialoguer = { version = "0.11", optional = true }
+indicatif = { version = "0.17", optional = true }
 
 [features]
 default = []
-dialoguer = ["dep:dialoguer"]
+dialoguer = ["dep:dialoguer", "dialoguer/fuzzy-select", "dialoguer/password"]
 indicatif = ["dep:indicatif"]
 
 [dev-dependencies]

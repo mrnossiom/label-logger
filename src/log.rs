@@ -2,7 +2,7 @@
 
 use crate::util::shorten;
 use console::{pad_str, style, Alignment, StyledObject};
-use once_cell::sync::OnceCell;
+use std::sync::LazyLock;
 use std::{
 	fmt::Display,
 	io::{stdout, IsTerminal},
@@ -10,7 +10,7 @@ use std::{
 use term_size::dimensions as terminal_dimensions;
 
 /// Checks if the output is piped and simplify the output for better debugging
-pub static PAD_OUTPUT: OnceCell<bool> = OnceCell::new();
+pub static PAD_OUTPUT: LazyLock<bool> = LazyLock::new(|| stdout().is_terminal());
 
 /// The maximum length of a log label
 pub const LABEL_WIDTH: usize = 12;
@@ -61,7 +61,7 @@ pub fn pretty_output<M: AsRef<str> + Display>(out_label: OutputLabel, message: M
 	};
 
 	// Pad output if the stdout is a tty
-	if *PAD_OUTPUT.get_or_init(|| stdout().is_terminal()) {
+	if *PAD_OUTPUT {
 		let (term_width, _) = terminal_dimensions().unwrap_or((80, 80));
 
 		let message = shorten(message.to_string(), term_width - LABEL_WIDTH - 1);
