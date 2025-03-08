@@ -1,15 +1,4 @@
 //! The replacement macro that uses core logger functions.
-//!
-//! # Usage
-//!
-//! ```rust
-//! use label_logger::{info, log, success};
-//!
-//! info!(label: "Compiling", "the program");
-//! log!("information without label");
-//! log!("more informations without label");
-//! success!(label: "Finished", "the compilation");
-//! ```
 
 /// Prints a message with no or the provided label
 ///
