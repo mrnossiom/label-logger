@@ -2,7 +2,7 @@
 
 use crate::OutputLabel;
 use dialoguer::{
-	console::{style, Style, StyledObject},
+	console::{Style, StyledObject, style},
 	theme::Theme,
 };
 use std::fmt;

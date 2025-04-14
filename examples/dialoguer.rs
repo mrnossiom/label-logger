@@ -1,6 +1,6 @@
 use console::style;
 use dialoguer::{Confirm, Input, Select};
-use label_logger::{log, LabelTheme};
+use label_logger::{LabelTheme, log};
 use std::{error::Error, net::IpAddr};
 
 #[allow(dead_code)]

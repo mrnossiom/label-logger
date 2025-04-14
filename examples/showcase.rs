@@ -1,6 +1,6 @@
 use label_logger::{error, format_label, info, success, warn};
 use std::{
-	io::{stdout, Write},
+	io::{Write, stdout},
 	thread::sleep,
 	time::Duration,
 };

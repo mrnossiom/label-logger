@@ -16,5 +16,5 @@ mod util;
 pub use crate::dialoguer::LabelTheme;
 #[cfg(feature = "indicatif")]
 pub use crate::indicatif::label_theme;
-pub use crate::log::{pretty_output, println_label, OutputLabel};
+pub use crate::log::{OutputLabel, pretty_output, println_label};
 pub use console;

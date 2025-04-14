@@ -1,11 +1,11 @@
 //! The actual implementation of the logger core
 
 use crate::util::shorten;
-use console::{pad_str, style, Alignment, StyledObject};
+use console::{Alignment, StyledObject, pad_str, style};
 use std::sync::LazyLock;
 use std::{
 	fmt::Display,
-	io::{stdout, IsTerminal},
+	io::{IsTerminal, stdout},
 };
 use term_size::dimensions as terminal_dimensions;
 

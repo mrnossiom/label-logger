@@ -1,6 +1,6 @@
 //! A label theme for indicatif progress bars
 
-use crate::{pretty_output, OutputLabel};
+use crate::{OutputLabel, pretty_output};
 use indicatif::ProgressStyle;
 
 /// Builds and return the theme for a progress bar
