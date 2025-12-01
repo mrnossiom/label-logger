@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +35,7 @@
               act
             ];
 
-            buildInputs = with pkgs; [ ];
+            buildInputs = [ ];
 
             RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;
             LD_LIBRARY_PATH = makeLibraryPath buildInputs;

@@ -24,7 +24,7 @@ use label_logger::{info, log, success};
 
 info!(label: "Compiling", "the program");
 log!("information without label");
-log!("more informations without label");
+log!("more information without label");
 success!(label: "Finished", "the compilation");
 ```
 
