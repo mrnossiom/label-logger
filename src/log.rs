@@ -1,13 +1,11 @@
 //! The actual implementation of the logger core
 
-use crate::util::shorten;
 use console::{Alignment, StyledObject, pad_str, style};
 use std::sync::LazyLock;
 use std::{
 	fmt::Display,
 	io::{IsTerminal, stdout},
 };
-use term_size::dimensions as terminal_dimensions;
 
 /// Checks if the output is piped and simplify the output for better debugging
 pub static PAD_OUTPUT: LazyLock<bool> = LazyLock::new(|| stdout().is_terminal());
@@ -62,10 +60,6 @@ pub fn pretty_output<M: AsRef<str> + Display>(out_label: OutputLabel, message: M
 
 	// Pad output if the stdout is a tty
 	if *PAD_OUTPUT {
-		let (term_width, _) = terminal_dimensions().unwrap_or((80, 80));
-
-		let message = shorten(message.to_string(), term_width - LABEL_WIDTH - 1);
-
 		format!(
 			"{} {}",
 			pad_str(

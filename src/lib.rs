@@ -9,7 +9,6 @@ pub mod dialoguer;
 pub mod indicatif;
 mod log;
 mod macros;
-mod util;
 
 // Re-exports
 #[cfg(feature = "dialoguer")]
