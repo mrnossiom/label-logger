@@ -1,6 +1,6 @@
 use indicatif::{HumanDuration, ProgressBar};
 use label_logger::{OutputLabel, format_label, label_theme, success};
-use rand::Rng;
+use rand::RngExt;
 use std::{
 	sync::{Arc, Mutex, mpsc},
 	thread,
